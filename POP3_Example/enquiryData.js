@@ -2,8 +2,7 @@
 $("#enquiry").click(function(e){
     e.preventDefault();
 	var name  = $("#t1").val().trim();
-	var email = $("#t2").val().trim();
-        var cc    = $("#t5").val().trim();
+
     var subject   = $("#t3").val().trim();
 	var message = $("#t4").val().trim();
 	
@@ -55,67 +54,6 @@ $("#enquiry").click(function(e){
                 removetextareaError();
 		
 	}
-	
-		else if(email == "")
-	{
-		$("#t2").focus();
-		$("#t2").css("border-color","red");
-		$("#eerror").html("please fill email");
-		removeError();
-                removetextareaError();
-		
-	}
-        
-        	else if(!filter.test(email))
-	{
-		$("#t2").focus();
-		$("#t2").css("border-color","red");
-		$("#eerror").html("please enter valid email");
-		removeError();
-                removetextareaError();
-		
-	}
-	
-		else if(email == null)
-	{
-		$("#t2").focus();
-		$("#t2").css("border-color","red");
-		$("#eerror").html("please fill email");
-		removeError();
-                removetextareaError();
-		
-	}
-        
-//        else if(cc == "")
-//	{
-//		$("#t5").focus();
-//		$("#t5").css("border-color","red");
-//		$("#Cerror").html("please fill email");
-//		removeError();
-//                removetextareaError();
-//		
-//	}
-//        
-//        	else if(!filter.test(cc))
-//	{
-//		$("#t5").focus();
-//		$("#t5").css("border-color","red");
-//		$("#Cerror").html("please enter valid email");
-//		removeError();
-//                removetextareaError();
-//		
-//	}
-	
-//		else if(cc == null)
-//	{
-//		$("#t5").focus();
-//		$("#t5").css("border-color","red");
-//		$("#Cerror").html("please fill email");
-//		removeError();
-//                removetextareaError();
-//		
-//	}
-	
 	
 	
 		else if(subject == "")
@@ -187,16 +125,13 @@ $("#enquiry").click(function(e){
 			
 			data:
 			{
-				postname:name, postemail:email, postsubject:subject, postcc:cc, postmessage:message
+				postname:name, postsubject:subject, postmessage:message
 			},
 			success:function(data)
 			{
                             $("#success").html(data);
-//                          
-//                             setInterval(function(){
-//                             location.reload(true);
-//                              
-//                          },3000);
+                          
+                                                    
 			}
 		});
                 
@@ -212,7 +147,7 @@ function removeAll()
 	z = "";
 	
 	$("#nerror").text(z);
-	$("#eerror").text(z);
+//	$("#eerror").text(z);
 	$("#serror").text(z);
 	$("#merror").text(z);
 	
@@ -230,7 +165,7 @@ function removeError()
 	$("input").keypress(function(){
 	
 	$("#nerror").text(i);
-	$("#eerror").text(i);
+//	$("#eerror").text(i);
 	$("#serror").text(i);
 	$("#merror").text(i);
 	
@@ -251,7 +186,7 @@ j = "";
 	$("textarea").keypress(function(){
 	
 	$("#nerror").text(i);
-	$("#eerror").text(i);
+//	$("#eerror").text(i);
 	$("#serror").text(i);
 	$("#merror").text(i);
 	
@@ -263,3 +198,19 @@ j = "";
 	}
 	
 	removetextareaError();
+//        
+// function formReset()
+// {
+//    setInterval(function(){
+//     var x = null;
+//     $("#t1").val(x);
+////     $("#t2").val(x);
+//      $("#t3").val(x);
+//     $("#t4").val(x);
+//      $("#t5").val(x);
+//      $("#success").html(x);
+//    },5000)
+//     
+//     
+// }
+// 

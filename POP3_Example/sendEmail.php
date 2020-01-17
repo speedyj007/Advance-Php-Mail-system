@@ -1,8 +1,8 @@
 
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
-
 error_reporting(0);
+
 
 $conn = new mysqli("localhost","root","","register");
 
@@ -10,8 +10,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$nameErr = $emailErr = $subjectErr = $messageErr = "";
-$name = $email = $subject = $cc = $message = "";
+$nameErr =  $subjectErr = $messageErr = "";
+$name = $subject = $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
@@ -22,11 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = test_input($_POST["postname"]);
   }
   
-   if (empty($_POST["postemail"])) {
-    $emailErr = "Email is required";
-	} else {
-    $email = test_input($_POST["postemail"]);
-  }
+
   
    if (empty($_POST["postsubject"])) {
     $subjectErr = "Subject is required";
@@ -39,12 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 	} else {
     $message = test_input($_POST["postmessage"]);
   }
-  
-     if (empty($_POST["postcc"])) {
-    $cc = "";
-	} else {
-     $cc = test_input($_POST["postcc"]);
-  }
+
 }
 
 function test_input($data)
@@ -57,6 +48,7 @@ function test_input($data)
 	
 }
 
+
 $stmt = $conn->prepare("insert into  equiry(name, email, subject, msg, cc) values(?,?,?,?,?)");
 $stmt->bind_param("sssss", $name, $email, $subject, $message, $cc);
 $stmt->execute();
@@ -64,48 +56,50 @@ $stmt->execute();
 if($stmt==true)
 
 {
+    
+//    echo 'success'."<br>";
    
-	if(isset($_POST["postname"]) && isset($_POST["postemail"]) )
+	if(isset($_POST["postname"]) && isset($_POST["postsubject"]) && isset($_POST["postmessage"]) )
 	{
 	
 	$name = $_POST["postname"];
-	$email = $_POST["postemail"];
+	
+        $email = "";
 	$subject = $_POST["postsubject"];
 	$msg = $_POST["postmessage"];
-	$cc = $_POST["postcc"];
+//	$cc = $_POST["postcc"];
 	
-	require_once "PHPMailer/PHPMailer.php";
-	require_once "PHPMailer/Exception.php";
-	require_once "PHPMailer/SMTP.php";
+	require_once "../PHPMailer/PHPMailer.php";
+	require_once "../PHPMailer/Exception.php";
+	require_once "../PHPMailer/SMTP.php";
 
 	$mail = new PHPMailer();
 	
 	$mail->isSMTP();
 	$mail->Host = "smtp.gmail.com";
 	$mail->SMTPAuth = true;
-	$mail->Username = "ultimatech007@gmail.com";
-	$mail->Password = "xifxhlcowjnbnbfb";
+	$mail->Username = "";
+	$mail->Password = "";
 	$mail->Port = 587;
 	$mail->SMTPSecure = "tls";
 	
 	$mail->isHTML(isHTML,true);
-	$mail->setFrom($email, $name);
+	$mail->setFrom($email,$name);
 	$mail->addAddress($email);
 	$mail->Subject = $subject;
 	$mail->Body = $msg;
 		
-        $mail->addCC($cc);
-        
+              
 	if($mail->send())
 	{
-	echo "mail sent";
+	$response = "mail sent";
 	}
 	else{
-	echo "Failed : ".$mail->ErrorInfo;
+	$response =  "Failed : ".$mail->ErrorInfo;
         
 	}
         
-//        exit(json_encode(array("response"=>$response)));
+        exit(json_encode(array("response"=>$response)));
 	}
 	
 }
